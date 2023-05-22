@@ -26,11 +26,19 @@ import java.util.UUID;
 @Slf4j
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
-    private final UserRepository userRepository;
-    private final BCryptPasswordEncoder passwordEncoder;
+    private UserRepository userRepository;
+    private BCryptPasswordEncoder passwordEncoder;
 
-    private final Environment env;
-    private final RestTemplate restTemplate;
+    private Environment env;
+    private RestTemplate restTemplate;
+
+
+    public UserServiceImpl(UserRepository userRepository, BCryptPasswordEncoder passwordEncoder, Environment env, RestTemplate restTemplate) {
+        this.userRepository = userRepository;
+        this.passwordEncoder = passwordEncoder;
+        this.env = env;
+        this.restTemplate = restTemplate;
+    }
 
 
     @Override
