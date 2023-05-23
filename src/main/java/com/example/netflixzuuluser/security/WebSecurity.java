@@ -1,25 +1,26 @@
 package com.example.netflixzuuluser.security;
 
 
-import com.netflix.discovery.converters.Auto;
+import com.example.netflixzuuluser.service.UserService;
 import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.env.Environment;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.authentication.AuthenticationFailureHandler;
-import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
-
-import javax.management.ConstructorParameters;
 
 
 @Configuration
 @EnableWebSecurity
+@AllArgsConstructor
 public class WebSecurity {
+
+    private UserService userService;
+    private AuthenticationManager authenticationManager;
+    private Environment env;
     private static final String[] AUTH_WHITELIST = {
             "/", "/user/**"
     };
@@ -32,6 +33,14 @@ public class WebSecurity {
                 .permitAll()
                 .anyRequest()
                 .authenticated());
+
+//        AuthenticationFilter authenticationFilter = new AuthenticationFilter(
+//                authenticationManager,
+//                userService,
+//                env
+//        );
+//        AuthenticationProvider
+//        JwtAuthenticationToken
 
         http.csrf().disable();
 
