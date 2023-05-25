@@ -27,3 +27,12 @@ eureka:
     instance:
       instance-id: ${spring.cloud.client.ip-address}:${spring.application.instance_id:${random.value}}
       prefer-ip-address: true
+
+logging:
+  level:
+    com.example.netflixzuuluser: DEBUG
+
+token:
+  expiration_time: 86400000
+  secret: user_token
+

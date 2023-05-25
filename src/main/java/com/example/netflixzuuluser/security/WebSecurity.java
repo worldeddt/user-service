@@ -7,7 +7,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.AuthenticationProvider;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.web.SecurityFilterChain;
@@ -21,28 +21,25 @@ public class WebSecurity {
     private UserService userService;
     private AuthenticationManager authenticationManager;
     private Environment env;
+
     private static final String[] AUTH_WHITELIST = {
-            "/", "/user/**"
+            "/", "/user/**", "/actuator/**"
     };
 
     @Bean
-    protected SecurityFilterChain config(HttpSecurity http) throws Exception {
+    protected SecurityFilterChain configure(HttpSecurity http) throws Exception {
+//        AuthenticationManagerBuilder authenticationManagerBuilder = http.getSharedObject(AuthenticationManagerBuilder.class);
+//        authenticationManagerBuilder.userDetailsService(userDetailsService);
+//        AuthenticationManager authenticationManager = authenticationManagerBuilder.build();
+
+        http.csrf().disable();
         http.authorizeHttpRequests(authorize -> authorize
-                .shouldFilterAllDispatcherTypes(false)
                 .requestMatchers(AUTH_WHITELIST)
                 .permitAll()
                 .anyRequest()
-                .authenticated());
-
-//        AuthenticationFilter authenticationFilter = new AuthenticationFilter(
-//                authenticationManager,
-//                userService,
-//                env
-//        );
-//        AuthenticationProvider
-//        JwtAuthenticationToken
-
-        http.csrf().disable();
+                .authenticated()
+                .shouldFilterAllDispatcherTypes(false)
+        );
 
         http.formLogin()
             .loginPage("/user/login")
