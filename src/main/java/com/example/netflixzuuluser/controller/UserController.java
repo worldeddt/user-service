@@ -1,7 +1,8 @@
-package com.example.netflixzuuluser;
+package com.example.netflixzuuluser.controller;
 
 
 import com.example.netflixzuuluser.dto.UserDto;
+import com.example.netflixzuuluser.entity.UserEntity;
 import com.example.netflixzuuluser.service.UserServiceImpl;
 import com.example.netflixzuuluser.vo.RequestLogin;
 import com.example.netflixzuuluser.vo.RequestUser;
@@ -12,6 +13,9 @@ import org.modelmapper.convention.MatchingStrategies;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @RestController
 @RequestMapping("/user")
@@ -52,5 +56,26 @@ public class UserController {
     @GetMapping("/customCheck")
     public String customCheck(String header) {
         return "user custom check";
+    }
+
+    @GetMapping("/users")
+    public ResponseEntity<List<ResponseUser>> getUsers() {
+        Iterable<UserEntity> userList = userService.getUserByAll();
+
+        List<ResponseUser> result = new ArrayList<>();
+        userList.forEach(v -> {
+            result.add(new ModelMapper().map(v, ResponseUser.class));
+        });
+
+        return ResponseEntity.status(HttpStatus.OK).body(result);
+    }
+
+    @GetMapping("/users/{userId}")
+    public ResponseEntity<ResponseUser> getUser(@PathVariable("userId") String userId) {
+        UserDto userDto = userService.getUserByUserId(userId);
+
+        ResponseUser returnValue = new ModelMapper().map(userDto, ResponseUser.class);
+
+        return ResponseEntity.status(HttpStatus.OK).body(returnValue);
     }
 }

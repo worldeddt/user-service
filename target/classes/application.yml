@@ -11,7 +11,7 @@ spring:
       enabled: true
       settings:
         web-allow-others: true
-      path: /user/h2-console
+      path: /h2-console
     datasource:
       driver-class-name: org.h2.Driver
       url: jdbc:h2:mem:testdb
@@ -27,3 +27,12 @@ eureka:
     instance:
       instance-id: ${spring.cloud.client.ip-address}:${spring.application.instance_id:${random.value}}
       prefer-ip-address: true
+
+logging:
+  level:
+    com.example.netflixzuuluser: DEBUG
+
+token:
+  expiration_time: 86400000
+  secret: user_token
+
