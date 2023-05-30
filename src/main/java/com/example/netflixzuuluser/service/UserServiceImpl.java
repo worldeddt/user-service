@@ -33,7 +33,10 @@ public class UserServiceImpl implements UserService {
     private RestTemplate restTemplate;
 
 
-    public UserServiceImpl(UserRepository userRepository, BCryptPasswordEncoder passwordEncoder, Environment env, RestTemplate restTemplate) {
+    @Autowired
+    public UserServiceImpl(UserRepository userRepository,
+                           BCryptPasswordEncoder passwordEncoder,
+                           Environment env, RestTemplate restTemplate) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
         this.env = env;
@@ -76,33 +79,33 @@ public class UserServiceImpl implements UserService {
 
         UserDto userDto = new ModelMapper().map(userEntity, UserDto.class);
 
-//        List<ResponseOrder> orders = new ArrayList<>();
+//        List<ResponseBooker> bookers = new ArrayList<>();
         /* Using as rest template */
-//        String orderUrl = String.format(env.getProperty("order_service.url"), userId);
-//        ResponseEntity<List<ResponseOrder>> orderListResponse =
-//                restTemplate.exchange(orderUrl, HttpMethod.GET, null,
-//                                            new ParameterizedTypeReference<List<ResponseOrder>>() {
+//        String bookerUrl = String.format(env.getProperty("booker_service.url"), userId);
+//        ResponseEntity<List<ResponseBooker>> bookerListResponse =
+//                restTemplate.exchange(bookerUrl, HttpMethod.GET, null,
+//                                            new ParameterizedTypeReference<List<ResponseBooker>>() {
 //                });
-//        List<ResponseOrder> ordersList = orderListResponse.getBody();
+//        List<ResponseBooker> bookersList = bookerListResponse.getBody();
 
         /* Using a feign client */
         /* Feign exception handling */
-//        List<ResponseOrder> ordersList = null;
+//        List<ResponseBooker> bookersList = null;
 //        try {
-//            ordersList = orderServiceClient.getOrders(userId);
+//            bookersList = bookerServiceClient.getBookers(userId);
 //        } catch (FeignException ex) {
 //            log.error(ex.getMessage());
 //        }
 
         /* ErrorDecoder */
-//        List<ResponseOrder> ordersList = orderServiceClient.getOrders(userId);
-//        log.info("Before call orders microservice");
+//        List<ResponseBooker> bookersList = bookerServiceClient.getBookers(userId);
+//        log.info("Before call bookers microservice");
 //        CircuitBreaker circuitBreaker = circuitBreakerFactory.create("circuitbreaker");
-//        List<ResponseOrder> ordersList = circuitBreaker.run(() -> orderServiceClient.getOrders(userId),
+//        List<ResponseBooker> bookersList = circuitBreaker.run(() -> bookerServiceClient.getBookers(userId),
 //                throwable -> new ArrayList<>());
-//        log.info("After called orders microservice");
+//        log.info("After called bookers microservice");
 
-//        userDto.setOrders(ordersList);
+//        userDto.setBookers(bookersList);
 
         return userDto;
     }
