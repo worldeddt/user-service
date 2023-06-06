@@ -4,13 +4,10 @@ package com.example.netflixzuuluser.service;
 import com.example.netflixzuuluser.dto.UserDto;
 import com.example.netflixzuuluser.entity.UserEntity;
 import com.example.netflixzuuluser.infra.UserRepository;
-import com.netflix.discovery.converters.Auto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-
 import org.modelmapper.ModelMapper;
 import org.modelmapper.convention.MatchingStrategies;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -26,23 +23,10 @@ import java.util.UUID;
 @Slf4j
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
-    private UserRepository userRepository;
-    private BCryptPasswordEncoder passwordEncoder;
-
-    private Environment env;
-    private RestTemplate restTemplate;
-
-
-    @Autowired
-    public UserServiceImpl(UserRepository userRepository,
-                           BCryptPasswordEncoder passwordEncoder,
-                           Environment env, RestTemplate restTemplate) {
-        this.userRepository = userRepository;
-        this.passwordEncoder = passwordEncoder;
-        this.env = env;
-        this.restTemplate = restTemplate;
-    }
-
+    private final UserRepository userRepository;
+    private final BCryptPasswordEncoder passwordEncoder;
+    private final Environment env;
+    private final RestTemplate restTemplate;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {

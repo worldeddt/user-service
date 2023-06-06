@@ -1,5 +1,6 @@
 package com.example.netflixzuuluser;
 
+import com.example.netflixzuuluser.infra.UserRepository;
 import feign.Logger;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

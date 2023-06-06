@@ -4,7 +4,6 @@ package com.example.netflixzuuluser.controller;
 import com.example.netflixzuuluser.dto.UserDto;
 import com.example.netflixzuuluser.entity.UserEntity;
 import com.example.netflixzuuluser.service.UserServiceImpl;
-import com.example.netflixzuuluser.vo.RequestLogin;
 import com.example.netflixzuuluser.vo.RequestUser;
 import com.example.netflixzuuluser.vo.ResponseUser;
 import lombok.extern.slf4j.Slf4j;
