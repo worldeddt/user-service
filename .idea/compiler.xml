@@ -10,6 +10,9 @@
         <module name="netflix-zuul-user" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="user-service" target="11" />
+    </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
