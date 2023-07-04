@@ -6,6 +6,7 @@ import com.example.netflixzuuluser.entity.UserEntity;
 import com.example.netflixzuuluser.service.UserServiceImpl;
 import com.example.netflixzuuluser.vo.RequestUser;
 import com.example.netflixzuuluser.vo.ResponseUser;
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.convention.MatchingStrategies;
@@ -19,6 +20,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/user")
 @Slf4j
+@AllArgsConstructor
 public class UserController {
     private UserServiceImpl userService;
 
@@ -28,7 +30,7 @@ public class UserController {
         mapper.getConfiguration().setMatchingStrategy(MatchingStrategies.STRICT);
 
         UserDto userDto = mapper.map(user, UserDto.class);
-        userService.createUser(userDto);
+        this.userService.createUser(userDto);
 
         ResponseUser responseUser = mapper.map(userDto, ResponseUser.class);
 
@@ -59,7 +61,7 @@ public class UserController {
 
     @GetMapping("/users")
     public ResponseEntity<List<ResponseUser>> getUsers() {
-        Iterable<UserEntity> userList = userService.getUserByAll();
+        Iterable<UserEntity> userList = this.userService.getUserByAll();
 
         List<ResponseUser> result = new ArrayList<>();
         userList.forEach(v -> {
@@ -71,7 +73,7 @@ public class UserController {
 
     @GetMapping("/users/{userId}")
     public ResponseEntity<ResponseUser> getUser(@PathVariable("userId") String userId) {
-        UserDto userDto = userService.getUserByUserId(userId);
+        UserDto userDto = this.userService.getUserByUserId(userId);
 
         ResponseUser returnValue = new ModelMapper().map(userDto, ResponseUser.class);
 

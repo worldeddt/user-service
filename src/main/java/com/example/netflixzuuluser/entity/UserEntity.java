@@ -8,7 +8,6 @@ import lombok.ToString;
 @Data
 @Entity
 @Table(name = "msa_users")
-@ToString
 public class UserEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
