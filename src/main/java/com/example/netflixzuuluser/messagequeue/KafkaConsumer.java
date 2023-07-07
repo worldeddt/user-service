@@ -33,7 +33,7 @@ public class KafkaConsumer {
             ex.printStackTrace();
         }
 
-        UserEntity user = userRepository.findUserEntityByUserId((String)map.get("productId"));
+        UserEntity user = userRepository.findUserEntityByUserId((String)map.get("userId"));
 
         if (user != null) {
             log.info("user find : "+user.getName());

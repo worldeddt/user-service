@@ -11,7 +11,6 @@ public class ResponseBooker {
     private String latitude;
     private String longitude;
     private String title;
-
     private Text memo;
     private Date createdAt;
 }
