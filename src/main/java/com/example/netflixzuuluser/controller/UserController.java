@@ -18,13 +18,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 @RestController
-@RequestMapping("/user")
+@RequestMapping("/user/v1")
 @Slf4j
 @AllArgsConstructor
 public class UserController {
     private UserServiceImpl userService;
 
-    @PostMapping("/users")
+    @PostMapping("/create")
     public ResponseEntity<ResponseUser> createUser(@RequestBody RequestUser user) {
         ModelMapper mapper = new ModelMapper();
         mapper.getConfiguration().setMatchingStrategy(MatchingStrategies.STRICT);
@@ -52,11 +52,6 @@ public class UserController {
     public String check(@RequestHeader("user-request") String header) {
         log.info(header);
         return "user service was checked";
-    }
-
-    @GetMapping("/customCheck")
-    public String customCheck(String header) {
-        return "user custom check";
     }
 
     @GetMapping("/users")

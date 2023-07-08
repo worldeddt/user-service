@@ -33,10 +33,12 @@ public class KafkaConsumer {
             ex.printStackTrace();
         }
 
-        UserEntity user = userRepository.findUserEntityByUserId((String)map.get("userId"));
+        log.info("map.get  :"+map.get("folderIndex"));
 
-        if (user != null) {
-            log.info("user find : "+user.getName());
-        }
+//        UserEntity user = userRepository.findUserEntityByUserId((String)map.get("userId"));
+//
+//        if (user != null) {
+//            log.info("user find : "+user.getName());
+//        }
     }
 }

@@ -2,8 +2,13 @@ package com.example.netflixzuuluser.service;
 
 
 import com.example.netflixzuuluser.dto.UserDto;
+import com.example.netflixzuuluser.entity.FolderEntity;
+import com.example.netflixzuuluser.entity.GroupEntity;
 import com.example.netflixzuuluser.entity.UserEntity;
+import com.example.netflixzuuluser.infra.FolderRepository;
+import com.example.netflixzuuluser.infra.GroupRepository;
 import com.example.netflixzuuluser.infra.UserRepository;
+import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
@@ -17,6 +22,8 @@ import java.util.UUID;
 @AllArgsConstructor
 public class UserServiceImpl {
     private UserRepository userRepository;
+    private GroupRepository groupRepository;
+    private FolderRepository folderRepository;
 
     public UserDto loadUserByUsername(String username) {
         UserEntity userEntity = userRepository.findUserEntityByName(username);
@@ -27,16 +34,25 @@ public class UserServiceImpl {
         return mapper.map(userEntity, UserDto.class);
     }
 
-    
-    public UserDto createUser(UserDto userDto) {
-        userDto.setUserId(UUID.randomUUID().toString());
 
+
+    @Transactional(rollbackOn=Exception.class)
+    public UserDto createUser(UserDto userDto) {
         ModelMapper mapper = new ModelMapper();
         mapper.getConfiguration().setMatchingStrategy(MatchingStrategies.STRICT);
         UserEntity userEntity = mapper.map(userDto, UserEntity.class);
-        userEntity.setEncryptedPwd(userDto.getPwd());
+        userEntity.setEncryptedPwd(userDto.getEncryptedPwd());
+
+        GroupEntity group = new GroupEntity();
+        group.setUser(userEntity);
+
+        FolderEntity folder = new FolderEntity();
+        folder.setName("our memory");
+        folder.setGroup(group);
 
         userRepository.save(userEntity);
+        groupRepository.save(group);
+        folderRepository.save(folder);
 
         return mapper.map(userEntity, UserDto.class);
     }
