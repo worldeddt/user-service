@@ -1,6 +1,9 @@
 package com.example.netflixzuuluser.messagequeue;
 
+import com.example.netflixzuuluser.common.commonUtilities;
+import com.example.netflixzuuluser.entity.BookerWithFolder;
 import com.example.netflixzuuluser.entity.UserEntity;
+import com.example.netflixzuuluser.infra.BookerWithFolderRepository;
 import com.example.netflixzuuluser.infra.UserRepository;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -19,6 +22,7 @@ import java.util.Map;
 public class KafkaConsumer {
 
     private UserRepository userRepository;
+    private BookerWithFolderRepository bookerWithFolderRepository;
 
     @KafkaListener(topics = "msa_user_topic")
     public void updateUser(String userMessage) {
@@ -29,16 +33,16 @@ public class KafkaConsumer {
         try {
             map = mapper.readValue(userMessage, new TypeReference<Map<Object, Object>>() {});
 
-        } catch (IOException ex) {
+            if (!map.containsKey("userId"))
+                throw new IOException("userId is null");
+
+            BookerWithFolder bookerWithFolder = new BookerWithFolder();
+            bookerWithFolder.setBooker(Integer.parseInt(map.get("bookerIndex").toString()));
+            bookerWithFolder.setFolder(Integer.parseInt(map.get("folderIndex").toString()));
+            bookerWithFolder.setRegisterDatetime(commonUtilities.convertLocalDateNowTime());
+            bookerWithFolderRepository.save(bookerWithFolder);
+        } catch (Exception ex) {
             ex.printStackTrace();
         }
-
-        log.info("map.get  :"+map.get("folderIndex"));
-
-//        UserEntity user = userRepository.findUserEntityByUserId((String)map.get("userId"));
-//
-//        if (user != null) {
-//            log.info("user find : "+user.getName());
-//        }
     }
 }
