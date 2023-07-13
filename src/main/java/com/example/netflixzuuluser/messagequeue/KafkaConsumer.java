@@ -2,7 +2,6 @@ package com.example.netflixzuuluser.messagequeue;
 
 import com.example.netflixzuuluser.common.commonUtilities;
 import com.example.netflixzuuluser.entity.BookerWithFolder;
-import com.example.netflixzuuluser.entity.UserEntity;
 import com.example.netflixzuuluser.infra.BookerWithFolderRepository;
 import com.example.netflixzuuluser.infra.UserRepository;
 import lombok.AllArgsConstructor;
